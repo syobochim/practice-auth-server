@@ -21,6 +21,11 @@ public class Authorize {
 
     public String scope;
 
+    public String state;
+
+    @NotNull
+    public String nonce;
+
     @AssertTrue
     public boolean isToken() {
         return responseType.equals("token");
