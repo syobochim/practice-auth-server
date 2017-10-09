@@ -17,13 +17,13 @@ public class Authorize {
     @NotNull
     public String clientId;
 
+    @NotNull
     public String redirectUri;
 
     public String scope;
 
     public String state;
 
-    @NotNull
     public String nonce;
 
     @AssertTrue
@@ -36,14 +36,12 @@ public class Authorize {
         if (redirectUri == null) {
             return true;
         }
-
-        URI uri;
         try {
-            uri = new URI(redirectUri);
+            URI uri = new URI(redirectUri.split(" ")[0]);
+            return uri.isAbsolute() && uri.getFragment() == null;
         } catch (URISyntaxException e) {
             return false;
         }
-        return uri.isAbsolute() && uri.getFragment() == null;
     }
 
     @AssertTrue
