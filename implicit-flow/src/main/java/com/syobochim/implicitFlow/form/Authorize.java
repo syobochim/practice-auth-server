@@ -1,6 +1,6 @@
 package com.syobochim.implicitFlow.form;
 
-import org.springframework.beans.factory.annotation.Required;
+import com.syobochim.implicitFlow.domain.Scope;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
@@ -19,6 +19,8 @@ public class Authorize {
 
     public String redirectUri;
 
+    public String scope;
+
     @AssertTrue
     public boolean isToken() {
         return responseType.equals("token");
@@ -26,6 +28,10 @@ public class Authorize {
 
     @AssertTrue
     public boolean isValidRedirectUri() {
+        if (redirectUri == null) {
+            return true;
+        }
+
         URI uri;
         try {
             uri = new URI(redirectUri);
@@ -33,6 +39,25 @@ public class Authorize {
             return false;
         }
         return uri.isAbsolute() && uri.getFragment() == null;
+    }
+
+    @AssertTrue
+    public boolean isValidScope() {
+        if (scope == null) {
+            return true;
+        }
+
+        String[] scopes = scope.split(" ");
+        if (!(scopes.length > 0 && scopes[0].equals("openid"))) {
+            return false;
+        }
+
+        for (String scope : scopes) {
+            if (!Scope.contains(scope)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
