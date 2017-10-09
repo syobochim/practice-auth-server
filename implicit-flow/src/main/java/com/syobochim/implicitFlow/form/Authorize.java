@@ -28,7 +28,7 @@ public class Authorize {
 
     @AssertTrue
     public boolean isToken() {
-        return responseType.equals("token");
+        return responseType.equals("id_token") || responseType.equals("id_token token");
     }
 
     @AssertTrue
