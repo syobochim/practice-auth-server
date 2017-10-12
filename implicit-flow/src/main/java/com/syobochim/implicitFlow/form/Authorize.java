@@ -12,32 +12,80 @@ import java.net.URISyntaxException;
  */
 public class Authorize {
     @NotNull
-    public String responseType;
+    private String response_type;
 
     @NotNull
-    public String clientId;
+    private String client_id;
 
     @NotNull
-    public String redirectUri;
+    private String redirect_uri;
 
-    public String scope;
+    private String scope;
 
-    public String state;
+    private String state;
 
-    public String nonce;
+    private String nonce;
+
+    public String getResponseType() {
+        return response_type;
+    }
+
+    public void setResponse_type(String response_type) {
+        this.response_type = response_type;
+    }
+
+    public String getClientTd() {
+        return client_id;
+    }
+
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
+    }
+
+    public String getRedirectUri() {
+        return redirect_uri;
+    }
+
+    public void setRedirect_uri(String redirect_uri) {
+        this.redirect_uri = redirect_uri;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getNonce() {
+        return nonce;
+    }
+
+    public void setNonce(String nonce) {
+        this.nonce = nonce;
+    }
 
     @AssertTrue
     public boolean isToken() {
-        return responseType.equals("id_token") || responseType.equals("id_token token");
+        return response_type == null || response_type.equals("id_token") || response_type.equals("id_token token");
     }
 
     @AssertTrue
     public boolean isValidRedirectUri() {
-        if (redirectUri == null) {
+        if (redirect_uri == null) {
             return true;
         }
         try {
-            URI uri = new URI(redirectUri.split(" ")[0]);
+            URI uri = new URI(redirect_uri.split(" ")[0]);
             return uri.isAbsolute() && uri.getFragment() == null;
         } catch (URISyntaxException e) {
             return false;
